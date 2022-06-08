@@ -7,7 +7,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { creatStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import Reducer from "./redux/reducer";
@@ -15,7 +15,7 @@ import Reducer from "./redux/reducer";
 const createStoreWthiMiddleware = applyMiddleware(
   promiseMiddleware,
   ReduxThunk
-)(creatStore);
+)(createStore);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
