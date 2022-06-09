@@ -1,7 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "../../assets/css/style.css";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import "../../firebase";
+
 function RegisterPage() {
   const {
     register,
@@ -9,10 +12,26 @@ function RegisterPage() {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const [errorFromSubmit, setErrorFromSubmit] = useState("");
+
+  const onSubmit = async (data) => {
+    const auth = await getAuth();
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        setErrorFromSubmit(error.message);
+        setTimeout(() => {
+          setErrorFromSubmit("");
+        }, 5000);
+        // ..
+      });
+  };
   const password = useRef(null);
-  password.current = watch("pdRequired");
-  console.log(watch("emailRequired")); // watch input value by passing the name of it
+  password.current = watch("password");
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
@@ -26,34 +45,41 @@ function RegisterPage() {
         <label>email</label>
         <input
           type="email"
-          {...register("emailRequired", { required: true })}
+          name="email"
+          {...register("email", { required: true })}
         />
-        {errors.emailRequired && <span>This email is required</span>}
+        {errors.email && <span>This email is required</span>}
 
         {/* include validation with required or other standard HTML validation rules */}
         <label>name</label>
-        <input type="text" {...register("nameRequired", { required: true })} />
-        {errors.nameRequired && <span>This name is required</span>}
+        <input
+          type="text"
+          name="name"
+          {...register("name", { required: true })}
+        />
+        {errors.name && <span>This name is required</span>}
         <label>password</label>
         <input
           type="password"
-          //   ref="password"
-          {...register("pdRequired", { required: true })}
+          ref="password"
+          name="password"
+          {...register("password", { required: true })}
         />
-        {errors.pdRequired && <span>This pd confirm is required</span>}
+        {errors.password && <span>This pd confirm is required</span>}
         <label>password confirm</label>
 
         <input
           type="password"
-          {...register("pdcRequired", {
+          name="passwordConfirm"
+          {...register("passwordConfirm", {
             required: true,
             validate: (val) => val === password.current,
           })}
         />
         {/* errors will return when field validation fails  */}
 
-        {errors.pdcRequired && <span>This pd confirm is required</span>}
-
+        {errors.passwordConfirm && <span>This pd confirm is required</span>}
+        {errorFromSubmit && <p>{errorFromSubmit}</p>}
         <input type="submit" />
       </form>
       <Link to="/login">로그인 하러 가기</Link>
