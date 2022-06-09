@@ -13,20 +13,24 @@ function RegisterPage() {
     formState: { errors },
   } = useForm();
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const auth = await getAuth();
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        setLoading(false);
       })
       .catch((error) => {
         setErrorFromSubmit(error.message);
         setTimeout(() => {
           setErrorFromSubmit("");
         }, 5000);
+        setLoading(false);
         // ..
       });
   };
@@ -80,7 +84,7 @@ function RegisterPage() {
 
         {errors.passwordConfirm && <span>This pd confirm is required</span>}
         {errorFromSubmit && <p>{errorFromSubmit}</p>}
-        <input type="submit" />
+        <input type="submit" disabled={loading} />
       </form>
       <Link to="/login">로그인 하러 가기</Link>
     </div>
