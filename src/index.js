@@ -21,13 +21,7 @@ const createStoreWthiMiddleware = applyMiddleware(
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <Provider
-      store={createStoreWthiMiddleware(
-        Reducer,
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-          window.__REDUX_DEVTOOLS_EXTENSION()
-      )}
-    >
+    <Provider store={createStoreWthiMiddleware(Reducer)}>
       <App />
     </Provider>
   </BrowserRouter>
