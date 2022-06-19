@@ -28,7 +28,6 @@ function RegisterPage() {
         // Signed in
         const user = userCredential.user;
         updateUserProfile(data.name, user);
-        console.log(user);
         setLoading(false);
       })
       .catch((error) => {
