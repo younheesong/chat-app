@@ -2,8 +2,13 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "../../assets/css/style.css";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import "../../firebase";
+import md5 from "md5";
 
 function RegisterPage() {
   const {
@@ -22,6 +27,7 @@ function RegisterPage() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        updateUserProfile(data.name, user);
         console.log(user);
         setLoading(false);
       })
@@ -33,6 +39,12 @@ function RegisterPage() {
         setLoading(false);
         // ..
       });
+  };
+  const updateUserProfile = async (name, user) => {
+    await updateProfile(user, {
+      displayName: name,
+      photoURL: `http://gravatar.com/avatar/${md5(user.email)}?d-identicon`,
+    });
   };
   const password = useRef(null);
   password.current = watch("password");
