@@ -1,3 +1,7 @@
+# app 소개
+
+firebase + react.js 를 이용한 chat app 구현
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
