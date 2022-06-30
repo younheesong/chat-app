@@ -16,7 +16,7 @@ function MessageForm() {
   const messagesRef = ref(getDatabase(), "messages");
   const createMessage = (fileUrl = null) => {
     const message = {
-      timestamp: new Date(),
+      timestamp: new Date().toString(),
       user: {
         id: user.uid,
         name: user.displayName,
@@ -28,6 +28,7 @@ function MessageForm() {
     } else {
       message["content"] = content;
     }
+    console.log(message);
     return message;
   };
   const handleSubmit = async () => {
