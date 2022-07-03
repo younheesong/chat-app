@@ -40,11 +40,7 @@ function Message({ message, user }) {
           </span>
         </h6>
         {isImage(message) ? (
-          <img
-            style={{ maxWidth: "300px" }}
-            alt="이미지"
-            src={message.user.image}
-          />
+          <img style={{ maxWidth: "300px" }} alt="이미지" src={message.image} />
         ) : (
           <p>{message.content}</p>
         )}
