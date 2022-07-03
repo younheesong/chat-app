@@ -11,7 +11,7 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
-function MessageHeader() {
+function MessageHeader({ handleSearchChange }) {
   return (
     <div
       style={{
@@ -32,7 +32,7 @@ function MessageHeader() {
               ) : (
                 <FaLockOpen style={{ marginBottom: "10px" }} />
               )} */}
-{/* 
+              {/* 
               {chatRoom && chatRoom.name}
 
               {!isPrivateChatRoom && (
@@ -53,7 +53,7 @@ function MessageHeader() {
                 <AiOutlineSearch />
               </InputGroup.Text>
               <FormControl
-                // onChange={handleSearchChange}
+                onChange={handleSearchChange}
                 placeholder="Search Messages"
                 aria-label="Search"
                 aria-describedby="basic-addon1"
